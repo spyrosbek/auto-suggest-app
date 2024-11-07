@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux";
 import AutoSuggestStories from "./components/AutoSuggestStories.tsx";
 import FavoriteStories from "./components/FavoriteStories.tsx";
 import { loadFavorites } from "./store/favoriteStories";
-import "./App.css";
+import logo from "./assets/logo.png";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS globally
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Import Bootstrap JS globally
 
 function App() {
     const dispatch = useDispatch();
@@ -13,9 +15,10 @@ function App() {
     }, [dispatch]);
 
   return (
-    <div>
-      <AutoSuggestStories />
-      <FavoriteStories />
+    <div className="app-container">
+        <img src={logo} className="app-logo" alt="logo"/>
+        <AutoSuggestStories/>
+        <FavoriteStories />
     </div>
   )
 }
