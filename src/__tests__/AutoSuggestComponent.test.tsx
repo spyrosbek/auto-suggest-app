@@ -1,9 +1,9 @@
 /*import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AutoSuggestComponent from '../AutoSuggestComponent';
+import AutoSuggestStories from '../AutoSuggestStories';
 
 test('renders input and suggests options', async () => {
-    render(<AutoSuggestComponent />);
+    render(<AutoSuggestStories />);
     const input = screen.getByPlaceholderText('Type to search...');
 
     userEvent.type(input, 'test');
