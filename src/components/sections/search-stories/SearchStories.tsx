@@ -5,6 +5,7 @@ import { Story } from '../../../types/Story.ts';
 import { addFavorite } from '../../../store/favoriteStories.ts';
 import './search-stories.scss';
 import StoryListItem from "../../artefacts/story-list-item/StoryListItem.tsx";
+import { FiX } from 'react-icons/fi';
 
 const SearchStories: React.FC = () => {
     const [query, setQuery] = useState('');
@@ -38,6 +39,10 @@ const SearchStories: React.FC = () => {
         dispatch(addFavorite(story));
     };
 
+    const clearQuery = () => {
+        setQuery('');
+    };
+
     return (
         <div className="search-stories-section">
             <label>
@@ -49,6 +54,11 @@ const SearchStories: React.FC = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
+            {query && (
+                <button className="clear-button" onClick={clearQuery} aria-label="Clear search">
+                    <FiX /> {/* Use the imported icon here */}
+                </button>
+            )}
             {loading ? (
                 <div className="spinner-border text-primary text-center mt-4 mx-auto" role="status">
                     <span className="sr-only"></span>
