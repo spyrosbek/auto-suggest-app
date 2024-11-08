@@ -1,0 +1,38 @@
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+$container-max-widths: (
+  "sm": 540px,
+  "md": 720px,
+  "lg": 960px,
+  "xl": 1140px,
+);
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem 15px;
+
+  @media (min-width: $breakpoint-sm) {
+    max-width: map-get($container-max-widths, "sm");
+  }
+  @media (min-width: $breakpoint-md) {
+    max-width: map-get($container-max-widths, "md");
+    padding: 1.5rem;
+  }
+  @media (min-width: $breakpoint-lg) {
+    max-width: map-get($container-max-widths, "lg");
+  }
+  @media (min-width: $breakpoint-xl) {
+    max-width: map-get($container-max-widths, "xl");
+  }
+}
+
+.container-fluid {
+  width: 100% !important;
+  padding-right: 15px;
+  padding-left: 15px;
+}

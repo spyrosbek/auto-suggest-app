@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import AutoSuggestStories from "./components/AutoSuggestStories.tsx";
-import FavoriteStories from "./components/FavoriteStories.tsx";
+import SearchStories from "./components/sections/search-stories/SearchStories.tsx";
+import FavoriteStories from "./components/sections/favorite-stories/FavoriteStories.tsx";
 import { loadFavorites } from "./store/favoriteStories";
 import logo from "./assets/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS globally
@@ -17,8 +17,10 @@ function App() {
   return (
     <div className="app-container">
         <img src={logo} className="app-logo" alt="logo"/>
-        <AutoSuggestStories/>
-        <FavoriteStories />
+        <div className="container">
+            <SearchStories />
+            <FavoriteStories />
+        </div>
     </div>
   )
 }

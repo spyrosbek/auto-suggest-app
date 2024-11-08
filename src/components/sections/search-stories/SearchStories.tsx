@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import hackerNewsApi from '../api/hackerNewsApi';
-import { Story } from '../types/Story';
-import { addFavorite } from '../store/favoriteStories';
+import hackerNewsApi from '../../../api/hackerNewsApi.ts';
+import { Story } from '../../../types/Story.ts';
+import { addFavorite } from '../../../store/favoriteStories.ts';
 
-const AutoSuggestStories: React.FC = () => {
+const SearchStories: React.FC = () => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<Story[]>([]);
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const AutoSuggestStories: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="search-stories-section">
             <input
                 type="text"
                 placeholder="Type to search Hacker News..."
@@ -56,4 +56,4 @@ const AutoSuggestStories: React.FC = () => {
     );
 };
 
-export default AutoSuggestStories;
+export default SearchStories;
