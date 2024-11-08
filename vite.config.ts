@@ -7,6 +7,7 @@ dotenvConfig();
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: "/auto-suggest-app/",
   define: {
     "process.env": process.env,
   },
