@@ -3,6 +3,7 @@ import { Story, StoryItemScope } from '../../../types/Story.ts';
 import DeleteButton from "../../molecules/button/DeleteButton.tsx";
 import './story-list-item.scss';
 import FavoriteButton from "../../molecules/button/FavoriteButton.tsx";
+import { highlightText } from "../../../utils/highlightText.tsx";
 
 interface StoryListItemProps {
     query?: string;
@@ -11,12 +12,12 @@ interface StoryListItemProps {
     handleClick: (story: Story) => void;
 }
 
-const StoryListItem: React.FC<StoryListItemProps> = ({ scope, story, handleClick }) => {
+const StoryListItem: React.FC<StoryListItemProps> = ({ query, scope, story, handleClick }) => {
     return (
         <li className="story-list-item">
             <div>
                 <a className="title" href={story.url} target="_blank" rel="noopener noreferrer" title={story.title}>
-                    {story.title}
+                    {highlightText(story.title, query || "")}
                 </a>
                 <p className="subtitle">
                     {story.points} points | by {story.author} | {story.commentsNumber} comments
