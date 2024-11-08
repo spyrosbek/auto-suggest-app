@@ -2,7 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store';
 import { removeFavorite } from '../../../store/favoriteStories.ts';
-import SavedStory from './SavedStory';
+import { Story } from '../../../types/Story.ts';
+import StoryListItem from '../../artefacts/story-list-item/StoryListItem.tsx';
 import './favorite-stories.scss';
 
 const FavoriteStories: React.FC = () => {
@@ -10,26 +11,29 @@ const FavoriteStories: React.FC = () => {
     const dispatch = useDispatch();
 
     // Handle removing a favorite story by dispatching the removeFavorite action
-    const handleRemoveFavorite = (id: string) => {
-        dispatch(removeFavorite(id));
+    const handleRemoveFavorite = (story: Story) => {
+        dispatch(removeFavorite(story.id));
     };
 
     return (
         <div className="favorite-stories-section">
-            <h2 className="header">Favorite Stories</h2>
-            {favorites.length === 0 ? (
-                <p className="content">No favorite stories added yet.</p>
-            ) : (
-                <ul className="content">
-                    {favorites.map((story) => (
-                        <SavedStory
-                            key={story.id}
-                            story={story}
-                            handleRemove={handleRemoveFavorite}
-                        />
-                    ))}
-                </ul>
-            )}
+            <div className="favorites-wrapper">
+                <h2 className="header">Favorite Stories</h2>
+                {favorites.length === 0 ? (
+                    <p className="content">No favorite stories added yet.</p>
+                ) : (
+                    <ul className="content">
+                        {favorites.map((story) => (
+                            <StoryListItem
+                                key={story.id}
+                                scope="FAVORITES"
+                                story={story}
+                                handleClick={handleRemoveFavorite}
+                            />
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };

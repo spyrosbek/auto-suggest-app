@@ -1,14 +1,4 @@
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-
-$container-max-widths: (
-  "sm": 540px,
-  "md": 720px,
-  "lg": 960px,
-  "xl": 1140px,
-);
+@import './variables';
 
 .container {
   width: 100%;

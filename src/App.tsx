@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="app-container">
         <img src={logo} className="app-logo" alt="logo"/>
-        <div className="container">
+        <div className="container search-page">
             <SearchStories />
             <FavoriteStories />
         </div>

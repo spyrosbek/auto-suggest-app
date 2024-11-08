@@ -39,6 +39,11 @@ const favoriteStories = createSlice({
             if (!state.favorites.some((story) => story.id === action.payload.id)) {
                 state.favorites.push(action.payload);
                 saveFavoritesToLocalStorage(state.favorites); // Sync with localStorage
+            } else {
+                // Remove the favorite from state
+                state.favorites = state.favorites.filter((story) => story.id !== action.payload.id);
+                // Update localStorage after removing the favorite
+                saveFavoritesToLocalStorage(state.favorites);
             }
         },
         removeFavorite: (state, action: PayloadAction<string>) => {

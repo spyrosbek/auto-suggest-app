@@ -21,3 +21,13 @@ h1 {
     position: relative;
   }
 }
+
+.search-page {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 40px;
+  @media (min-width: $breakpoint-lg) {
+    flex-direction: row;
+  }
+}

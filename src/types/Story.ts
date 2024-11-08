@@ -1,3 +1,5 @@
+export type StoryItemScope = "SEARCH" | "FAVORITES";
+
 export interface StoryData {
     objectID: string;
     url: string;

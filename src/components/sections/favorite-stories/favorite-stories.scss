@@ -1,46 +1,16 @@
 @import '../../../styles/variables';
 
 .favorite-stories-section {
-  position: absolute;
-  top: 0;
-  right: 0;
-  .header {
-    font-size: 20pt;
-  }
-  .content {
-    list-style: none;
-    padding: 0;
-    .saved-story-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      border: 1px solid $secondary-color;
-      border-bottom: none;
-      padding: 1rem;
-      &:last-child {
-        border-bottom: 1px solid $secondary-color;
-      }
-      .title {
-        display: block;
-        text-decoration: none;
-        font-size: 14pt;
-        color: black;
-        width: 450px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .subtitle {
-        font-size: 10pt;
-        color: grey;
-        margin: 0;
-      }
+  .favorites-wrapper {
+    position: sticky;
+    top: 8px;
+    .header {
+      font-size: 20pt;
+      text-align: center;
     }
-    .delete-btn {
-      cursor: pointer;
-      font-size: 12pt;
-      color: red;
+    .content {
+      list-style: none;
+      padding: 0;
     }
   }
 }

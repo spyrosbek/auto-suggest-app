@@ -7,7 +7,7 @@ interface DeleteButtonProps {
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
     return (
-        <a className="delete-btn" onClick={onClick}>
+        <a className="action-btn" onClick={onClick}>
             <FaTrash />
         </a>
     );
