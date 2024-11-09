@@ -11,20 +11,25 @@ const SearchStories: React.FC = () => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<Story[]>([]);
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchSuggestions = async () => {
             if (query.trim().length < 3) {
                 setSuggestions([]);
+                setErrorMessage("");
                 return;
             }
-
             setLoading(true);
             try {
                 const results = await hackerNewsApi.searchStories(query);
                 setSuggestions(results);
+                if (results.length === 0) {
+                    setErrorMessage('No stories found.');
+                }
             } catch (error) {
+                setErrorMessage('Failed to fetch suggestions.');
                 console.error('Failed to fetch suggestions:', error);
             } finally {
                 setLoading(false);
@@ -40,6 +45,7 @@ const SearchStories: React.FC = () => {
     };
 
     const clearQuery = () => {
+        setErrorMessage("");
         setSuggestions([]);
         setQuery('');
     };
@@ -76,6 +82,9 @@ const SearchStories: React.FC = () => {
                         />
                     ))}
                 </ul>
+            )}
+            {errorMessage.length > 0 && (
+                <p className="error-message">{errorMessage}</p>
             )}
         </div>
     );
