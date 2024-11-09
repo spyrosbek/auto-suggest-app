@@ -16,6 +16,7 @@ const SearchStories: React.FC = () => {
 
     useEffect(() => {
         const fetchSuggestions = async () => {
+            setErrorMessage("");
             if (query.trim().length < 3) {
                 setSuggestions([]);
                 setErrorMessage("");
@@ -67,7 +68,7 @@ const SearchStories: React.FC = () => {
                 </button>
             )}
             {loading ? (
-                <div className="spinner-border text-primary text-center mt-4 mx-auto" role="status">
+                <div className="spinner-border text-primary text-center my-4 mx-auto" role="status">
                     <span className="sr-only"></span>
                 </div>
             ) : (
