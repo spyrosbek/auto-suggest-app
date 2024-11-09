@@ -11,18 +11,24 @@ interface StoryListItemProps {
     story: Story;
     handleClick: (story: Story) => void;
 }
-// TODO: fix case of missing element, eg "| by author0"
+
 const StoryListItem: React.FC<StoryListItemProps> = ({ query, scope, story, handleClick }) => {
+    const createSubtitle = () => {
+        const parts = [];
+        if (story.points) parts.push(`${story.points} points`);
+        if (story.author) parts.push(`by ${story.author}`);
+        if (story.commentsNumber) parts.push(`${story.commentsNumber} comments`);
+        return parts.join(' | ');
+    };
+
     return (
         <li className="story-list-item">
             <div>
                 <a className="title" href={story.url} target="_blank" rel="noopener noreferrer" title={story.title}>
-                    {highlightText(story.title, query || "") || "__ Missing Story Title __"}
+                    {highlightText(story.title, query || "") || "__Missing_Story_Title__"}
                 </a>
                 <p className="subtitle">
-                    {story.points && (<span>{story.points} points</span>)}
-                    {story.author && (<span> | by {story.author}</span>)}
-                    {story.commentsNumber && (<span> | {story.commentsNumber} comments </span>)}
+                    {createSubtitle()}
                 </p>
             </div>
             {scope === "FAVORITES" && (

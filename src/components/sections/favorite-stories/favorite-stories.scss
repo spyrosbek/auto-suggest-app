@@ -1,6 +1,7 @@
 @import '../../../styles/variables';
 
 .favorite-stories-section {
+  min-width: fit-content;
   .favorites-wrapper {
     position: sticky;
     top: 8px;

@@ -11,6 +11,7 @@ const hackerNewsApi = {
             const response = await axios.get(`${BASE_URL}/search`, {
                 params: {
                     query,
+                    tags: 'story',
                 },
             });
             return response.data.hits.map((storyData: StoryData) => new Story(storyData));

@@ -40,6 +40,7 @@ const SearchStories: React.FC = () => {
     };
 
     const clearQuery = () => {
+        setSuggestions([]);
         setQuery('');
     };
 
@@ -50,13 +51,13 @@ const SearchStories: React.FC = () => {
             </label>
             <input
                 type="text"
-                placeholder="Search story title"
+                placeholder="Type story title..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
             {query && (
                 <button className="clear-button" onClick={clearQuery} aria-label="Clear search">
-                    <FiX /> {/* Use the imported icon here */}
+                    <FiX />
                 </button>
             )}
             {loading ? (

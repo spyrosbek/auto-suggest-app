@@ -33,6 +33,10 @@
     &:hover {
       color: $secondary-color;
     }
+    @media (max-width: $breakpoint-lg) {
+      right: 12px;
+      top: 48px;
+    }
   }
   ul.search-results {
     display: flex;
