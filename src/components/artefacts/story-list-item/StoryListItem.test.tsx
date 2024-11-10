@@ -1,43 +1,82 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import StoryListItem from './StoryListItem';
-import { Story } from '../../../types/Story';
+import '@testing-library/jest-dom';
+import StoryListItem from './StoryListItem.tsx';
 
 describe('StoryListItem', () => {
-    const mockStory: Story = {
-        id: '123',
+    const mockStory = {
+        id: 1,
         title: 'Test Story',
         url: 'https://example.com',
         points: 100,
-        author: 'test_author',
-        commentsNumber: 5,
+        author: 'testuser',
+        created_at: '2023-01-01T00:00:00.000Z'
     };
 
-    const handleClick = jest.fn();
+    const mockOnSave = jest.fn();
+    const mockOnDelete = jest.fn();
 
-    test('renders StoryListItem with title, subtitle, and links', () => {
-        render(<StoryListItem story={mockStory} scope="SEARCH" handleClick={handleClick} />);
+    it('renders story details correctly', () => {
+        render(
+            <StoryListItem
+                story={mockStory}
+                onSave={mockOnSave}
+                onDelete={mockOnDelete}
+            />
+        );
 
-        expect(screen.getByText('Test Story')).toBeInTheDocument();
+        expect(screen.getByText(mockStory.title)).toBeInTheDocument();
+        expect(screen.getByText(mockStory.author)).toBeInTheDocument();
         expect(screen.getByText('100 points')).toBeInTheDocument();
-        expect(screen.getByText('by test_author')).toBeInTheDocument();
-        expect(screen.getByText('5 comments')).toBeInTheDocument();
     });
 
-    test('calls handleClick on DeleteButton in FAVORITES scope', () => {
-        render(<StoryListItem story={mockStory} scope="FAVORITES" handleClick={handleClick} />);
+    it('calls onSave when save button is clicked', () => {
+        render(
+            <StoryListItem
+                story={mockStory}
+                onSave={mockOnSave}
+                onDelete={mockOnDelete}
+            />
+        );
+
+        const saveButton = screen.getByRole('button', { name: /save/i });
+        fireEvent.click(saveButton);
+
+        expect(mockOnSave).toHaveBeenCalledWith(mockStory);
+    });
+
+    it('calls onDelete when delete button is clicked', () => {
+        render(
+            <StoryListItem
+                story={mockStory}
+                onSave={mockOnSave}
+                onDelete={mockOnDelete}
+            />
+        );
 
         const deleteButton = screen.getByRole('button', { name: /delete/i });
         fireEvent.click(deleteButton);
 
-        expect(handleClick).toHaveBeenCalledWith(mockStory);
+        expect(mockOnDelete).toHaveBeenCalledWith(mockStory.id);
     });
 
-    test('calls handleClick on FavoriteButton in SEARCH scope', () => {
-        render(<StoryListItem story={mockStory} scope="SEARCH" handleClick={handleClick} />);
+    it('handles null story data gracefully', () => {
+        const incompleteStory = {
+            id: 1,
+            title: 'Test Story',
+            // Missing other fields
+        };
 
-        const favoriteButton = screen.getByRole('button', { name: /favorite/i });
-        fireEvent.click(favoriteButton);
+        render(
+            <StoryListItem
+                story={incompleteStory}
+                onSave={mockOnSave}
+                onDelete={mockOnDelete}
+            />
+        );
 
-        expect(handleClick).toHaveBeenCalledWith(mockStory);
+        expect(screen.getByText('Test Story')).toBeInTheDocument();
+        // Verify that the component doesn't crash with missing data
+        expect(screen.queryByText('undefined points')).not.toBeInTheDocument();
     });
 });
