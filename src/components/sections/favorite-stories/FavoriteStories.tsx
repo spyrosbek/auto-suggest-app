@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store';
-import { removeFavorite } from '../../../store/favoriteStories.ts';
+import { toggleFavorite } from '../../../store/favoriteStories.ts';
 import { Story } from '../../../types/Story.ts';
 import StoryListItem from '../../artefacts/story-list-item/StoryListItem.tsx';
 import './favorite-stories.scss';
@@ -10,9 +10,8 @@ const FavoriteStories: React.FC = () => {
     const favorites = useSelector((state: RootState) => state.favorites.favorites);
     const dispatch = useDispatch();
 
-    // Handle removing a favorite story by dispatching the removeFavorite action
     const handleRemoveFavorite = (story: Story) => {
-        dispatch(removeFavorite(story.id));
+        dispatch(toggleFavorite(story));
     };
 
     return (

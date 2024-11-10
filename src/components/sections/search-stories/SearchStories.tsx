@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import hackerNewsApi from '../../../api/hackerNewsApi.ts';
 import { Story } from '../../../types/Story.ts';
-import { addFavorite } from '../../../store/favoriteStories.ts';
+import { toggleFavorite } from '../../../store/favoriteStories.ts';
 import './search-stories.scss';
 import StoryListItem from "../../artefacts/story-list-item/StoryListItem.tsx";
 import { FiX } from 'react-icons/fi';
@@ -42,7 +42,7 @@ const SearchStories: React.FC = () => {
     }, [query]);
 
     const handleAddFavorite = (story: Story) => {
-        dispatch(addFavorite(story));
+        dispatch(toggleFavorite(story));
     };
 
     const clearQuery = () => {
