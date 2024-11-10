@@ -37,11 +37,11 @@ const favoriteStories = createSlice({
             if (!state.favorites.some((story) => story.id === action.payload.id)) {
                 // Add the story to favorites state
                 state.favorites.push(action.payload);
-                saveFavoritesToLocalStorage(state.favorites); // Sync with localStorage
+                saveFavoritesToLocalStorage(state.favorites);
             } else {
                 // Remove the story from favorites state
                 state.favorites = state.favorites.filter((story) => story.id !== action.payload.id);
-                saveFavoritesToLocalStorage(state.favorites); // Sync with localStorage
+                saveFavoritesToLocalStorage(state.favorites);
             }
         },
         loadFavorites: (state) => {

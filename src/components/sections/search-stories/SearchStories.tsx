@@ -41,7 +41,7 @@ const SearchStories: React.FC = () => {
         return () => clearTimeout(timerId);
     }, [query]);
 
-    const handleAddFavorite = (story: Story) => {
+    const handleToggleFavorite = (story: Story) => {
         dispatch(toggleFavorite(story));
     };
 
@@ -79,7 +79,7 @@ const SearchStories: React.FC = () => {
                             scope="SEARCH"
                             story={story}
                             query={query}
-                            handleClick={handleAddFavorite}
+                            handleClick={handleToggleFavorite}
                         />
                     ))}
                 </ul>
