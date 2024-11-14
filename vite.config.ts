@@ -16,4 +16,14 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "src/styles/main.scss";
+          @import "bootstrap/dist/css/bootstrap.min.css";
+        `
+      }
+    }
+  }
 });

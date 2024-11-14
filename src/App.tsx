@@ -4,7 +4,6 @@ import SearchStories from "./components/sections/search-stories/SearchStories.ts
 import FavoriteStories from "./components/sections/favorite-stories/FavoriteStories.tsx";
 import { loadFavorites } from "./store/favoriteStories";
 import logo from "./assets/logo.png";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS globally
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Import Bootstrap JS globally
 
 function App() {
