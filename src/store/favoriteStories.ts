@@ -21,7 +21,7 @@ const saveFavoritesToLocalStorage = (favorites: Story[]) => {
     }
 };
 
-interface FavoritesState {
+export interface FavoritesState {
     favorites: Story[];
 }
 

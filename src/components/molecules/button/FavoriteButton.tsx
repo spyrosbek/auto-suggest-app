@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Story } from '../../../types/Story.ts';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { RootState } from "../../../store";
+import { RootState } from "../../../store/store.ts";
 
 interface FavoriteButtonProps {
     storyId: string;
