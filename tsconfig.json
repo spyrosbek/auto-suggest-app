@@ -11,6 +11,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "composite": true,
     "noEmit": false,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",
@@ -24,7 +25,6 @@
     /* Added for Jest compatibility */
     "esModuleInterop": true
   },
-  "composite": true,
   "include": ["src"],
   "files": [],
   "references": [

@@ -12,6 +12,7 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
+    "composite": true,
     "noEmit": false,
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",
@@ -23,6 +24,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "composite": true,
   "include": ["src"]
 }
