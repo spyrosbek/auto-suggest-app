@@ -9,7 +9,7 @@ export function highlightText(text: string | undefined, query: string | undefine
 
     return parts.map((part, index) =>
         part.toLowerCase() === query.toLowerCase() ? (
-            <span key={index} style={{ color: 'red' }}>
+            <span key={index} className="highlighted-text" data-testid="highlighted-text">
                 {part}
             </span>
         ) : (

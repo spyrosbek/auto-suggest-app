@@ -1,114 +1,97 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import StoryListItem from './StoryListItem';
 import { Story } from '../../../types/Story';
-import { highlightText } from "../../../utils/highlightText";
 
-// Mock the highlightText function
+jest.mock('./story-list-item.scss');
 jest.mock('../../../utils/highlightText', () => ({
-    highlightText: jest.fn((text) => text),
+    highlightText: (text: string) => text,
 }));
+
+const mockStore = configureStore([]);
 
 describe('StoryListItem', () => {
     const mockStory: Story = {
         id: '1',
         title: 'Test Story',
         url: 'https://example.com',
+        author: 'Test Author',
         points: 100,
-        author: 'testuser',
         commentsNumber: 10,
     };
 
     const mockHandleClick = jest.fn();
 
-    it('renders story details correctly for SEARCH scope', () => {
-        render(
-            <StoryListItem
-                query=""
-                scope="SEARCH"
-                story={mockStory}
-                handleClick={mockHandleClick}
-            />
-        );
+    const renderWithRedux = (
+        component: React.ReactElement,
+        { initialState = { favorites: { favorites: [] } } } = {}
+    ) => {
+        const store = mockStore(initialState);
+        return render(<Provider store={store}>{component}</Provider>);
+    };
 
-        expect(screen.getByText(mockStory.title)).toBeInTheDocument();
-        expect(screen.getByText('100 points | by testuser | 10 comments')).toBeInTheDocument();
-        expect(screen.getByRole('link')).toHaveAttribute('href', mockStory.url);
-        expect(screen.getByRole('button')).toBeInTheDocument(); // FavoriteButton
+    it('renders story details correctly', () => {
+        renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} />);
+
+        expect(screen.getByText('Test Story')).toBeInTheDocument();
+        expect(screen.getByText('100 points | by Test Author | 10 comments')).toBeInTheDocument();
     });
 
-    it('renders story details correctly for FAVORITES scope', () => {
-        render(
-            <StoryListItem
-                query=""
-                scope="FAVORITES"
-                story={mockStory}
-                handleClick={mockHandleClick}
-            />
-        );
+    it('renders a link to the story URL', () => {
+        renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} />);
 
-        expect(screen.getByText(mockStory.title)).toBeInTheDocument();
-        expect(screen.getByText('100 points | by testuser | 10 comments')).toBeInTheDocument();
-        expect(screen.getByRole('link')).toHaveAttribute('href', mockStory.url);
-        expect(screen.getByRole('button')).toBeInTheDocument(); // DeleteButton
+        const link = screen.getByRole('link', { name: 'Test Story' });
+        expect(link).toHaveAttribute('href', 'https://example.com');
+        expect(link).toHaveAttribute('target', '_blank');
+        expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     });
 
-    it('calls handleClick when FavoriteButton is clicked in SEARCH scope', () => {
-        render(
-            <StoryListItem
-                query=""
-                scope="SEARCH"
-                story={mockStory}
-                handleClick={mockHandleClick}
-            />
-        );
+    it('renders FavoriteButton when scope is SEARCH', () => {
+        renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} />);
 
-        const favoriteButton = screen.getByRole('button');
+        expect(screen.getByTestId('favorite-button')).toBeInTheDocument();
+    });
+
+    it('renders DeleteButton when scope is FAVORITES', () => {
+        renderWithRedux(<StoryListItem scope="FAVORITES" story={mockStory} handleClick={mockHandleClick} />);
+
+        expect(screen.getByTestId('delete-button')).toBeInTheDocument();
+    });
+
+    it('calls handleClick when FavoriteButton is clicked', () => {
+        renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} />);
+
+        const favoriteButton = screen.getByTestId('favorite-button');
         fireEvent.click(favoriteButton);
 
         expect(mockHandleClick).toHaveBeenCalledWith(mockStory);
     });
 
-    it('calls handleClick when DeleteButton is clicked in FAVORITES scope', () => {
-        render(
-            <StoryListItem
-                query=""
-                scope="FAVORITES"
-                story={mockStory}
-                handleClick={mockHandleClick}
-            />
-        );
+    it('calls handleClick when DeleteButton is clicked', () => {
+        renderWithRedux(<StoryListItem scope="FAVORITES" story={mockStory} handleClick={mockHandleClick} />);
 
-        const deleteButton = screen.getByRole('button');
+        const deleteButton = screen.getByTestId('delete-button');
         fireEvent.click(deleteButton);
 
         expect(mockHandleClick).toHaveBeenCalledWith(mockStory);
     });
 
-    it('highlights text when query is provided', () => {
-        render(
-            <StoryListItem
-                query="Test"
-                scope="SEARCH"
-                story={mockStory}
-                handleClick={mockHandleClick}
-            />
-        );
+    it('highlights text when query is provided', async () => {
+        const query = 'Test';
+        renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} query={query} />);
 
-        expect(highlightText).toHaveBeenCalledWith(mockStory.title, 'Test');
+        await waitFor(() => {
+            expect(screen.getByTestId('highlighted-text')).toBeInTheDocument();
+        });
     });
 
-    // it('handles missing story title', () => {
-    //     const storyWithoutTitle = { ...mockStory, title: undefined };
-    //     render(
-    //         <StoryListItem
-    //             query=""
-    //             scope="SEARCH"
-    //             story={storyWithoutTitle as Partial<Story>}
-    //             handleClick={mockHandleClick}
-    //         />
-    //     );
-    //
-    //     expect(screen.getByText('__Missing_Story_Title__')).toBeInTheDocument();
-    // });
+    it('displays fallback text when story title is missing', () => {
+        const storyWithoutTitle = { ...mockStory, title: '' };
+        renderWithRedux(<StoryListItem scope="SEARCH" story={storyWithoutTitle} handleClick={mockHandleClick} />);
+
+        expect(screen.getByText('__Missing_Story_Title__')).toBeInTheDocument();
+    });
 });

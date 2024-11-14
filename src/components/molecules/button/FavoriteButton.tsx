@@ -16,7 +16,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ storyId, onClick }) => 
     );
 
     return (
-        <a className="action-btn" onClick={onClick}>
+        <a className="action-btn" onClick={onClick} data-testid="favorite-button">
             {isFavorited ? (
                 <FaHeart />
             ) : (

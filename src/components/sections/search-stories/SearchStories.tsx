@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import hackerNewsApi from '../../../api/hackerNewsApi.ts';
 import { Story } from '../../../types/Story.ts';
 import { toggleFavorite } from '../../../store/favoriteStories.ts';
-import './search-stories.scss';
+import Spinner from "../../molecules/spinner/Spinner.tsx";
 import StoryListItem from "../../artefacts/story-list-item/StoryListItem.tsx";
 import { FiX } from 'react-icons/fi';
+import './search-stories.scss';
 
 const SearchStories: React.FC = () => {
     const [query, setQuery] = useState('');
@@ -68,11 +69,9 @@ const SearchStories: React.FC = () => {
                 </button>
             )}
             {loading ? (
-                <div className="spinner-border text-primary text-center my-4 mx-auto" role="status">
-                    <span className="sr-only"></span>
-                </div>
+                <Spinner />
             ) : (
-                <ul className="search-results">
+                <ul className="search-results" data-testid="search-results">
                     {suggestions.map((story) => (
                         <StoryListItem
                             key={story.id}
