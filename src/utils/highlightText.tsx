@@ -8,7 +8,7 @@ export function highlightText(text: string | undefined, query: string | undefine
     const parts = text.split(regex);
 
     return parts.map((part, index) =>
-        part.toLowerCase() === query.toLowerCase() ? (
+        regex.test(part) ? (
             <span key={index} className="highlighted-text" data-testid="highlighted-text">
                 {part}
             </span>

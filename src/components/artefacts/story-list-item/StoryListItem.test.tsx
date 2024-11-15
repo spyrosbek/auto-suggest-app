@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -7,9 +7,6 @@ import StoryListItem from './StoryListItem';
 import { Story } from '../../../types/Story';
 
 jest.mock('./story-list-item.scss');
-jest.mock('../../../utils/highlightText', () => ({
-    highlightText: (text: string) => text,
-}));
 
 const mockStore = configureStore([]);
 
@@ -83,9 +80,9 @@ describe('StoryListItem', () => {
         const query = 'Test';
         renderWithRedux(<StoryListItem scope="SEARCH" story={mockStory} handleClick={mockHandleClick} query={query} />);
 
-        await waitFor(() => {
-            expect(screen.getByTestId('highlighted-text')).toBeInTheDocument();
-        });
+        const highlightedText = await screen.findByTestId('highlighted-text');
+        expect(highlightedText).toBeInTheDocument();
+        expect(highlightedText).toHaveTextContent('Test');
     });
 
     it('displays fallback text when story title is missing', () => {

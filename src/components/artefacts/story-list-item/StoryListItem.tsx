@@ -13,7 +13,11 @@ interface StoryListItemProps {
 }
 
 const StoryListItem: React.FC<StoryListItemProps> = ({ query, scope, story, handleClick }) => {
-    const createSubtitle = () => {
+    const storyTitle = React.useMemo(() => {
+        return highlightText(story.title, query || "") || "__Missing_Story_Title__";
+    }, [story.title, query]);
+
+    const storySubtitle = () => {
         const parts = [];
         if (story.points) parts.push(`${story.points} points`);
         if (story.author) parts.push(`by ${story.author}`);
@@ -25,10 +29,10 @@ const StoryListItem: React.FC<StoryListItemProps> = ({ query, scope, story, hand
         <li className="story-list-item">
             <div>
                 <a className="title" href={story.url} target="_blank" rel="noopener noreferrer" title={story.title}>
-                    {highlightText(story.title, query || "") || "__Missing_Story_Title__"}
+                    {storyTitle}
                 </a>
                 <p className="subtitle">
-                    {createSubtitle()}
+                    {storySubtitle()}
                 </p>
             </div>
             {scope === "FAVORITES" && (
